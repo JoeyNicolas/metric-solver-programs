@@ -84,18 +84,30 @@ def levenshtein_distance(s1, s2, show_table=True):
     # Return the final distance
     return dp[rows-1][cols-1]
 
-# Word pairs to analyze
-word_pairs = [
-    ("frisch", "licht"),
-    ("suchleiste", "schalter")
-]
+# Replace hardcoded word pairs with user input
+def main():
+    print("Levenshtein Edit Distance Calculator")
+    print("=" * 50)
+    
+    while True:
+        # Get user input for word pairs
+        print("\nEnter two words to calculate their Levenshtein distance")
+        print("(or press Enter without typing to exit):")
+        
+        word1 = input("Enter first word: ").strip()
+        if not word1:
+            print("Exiting program. Goodbye!")
+            break
+            
+        word2 = input("Enter second word: ").strip()
+        if not word2:
+            print("Exiting program. Goodbye!")
+            break
+        
+        print(f"\n• {word1} - {word2}:")
+        distance = levenshtein_distance(word1, word2)
+        print(f"  Levenshtein distance: {distance}")
+        print("-" * 50)
 
-# Calculate and display the Levenshtein distance for each pair
-print("Levenshtein Edit Distance Results:")
-print("=" * 50)
-for pair in word_pairs:
-    word1, word2 = pair
-    print(f"• {word1} - {word2}:")
-    distance = levenshtein_distance(word1, word2)
-    print(f"  Levenshtein distance: {distance}")
-    print("-" * 50)
+if __name__ == "__main__":
+    main()
