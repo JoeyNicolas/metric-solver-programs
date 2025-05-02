@@ -27,18 +27,8 @@ def hamming_distance(s1, s2):
     # Add the length difference to get the total distance
     return distance + length_diff
 
-# Word pairs to analyze
-word_pairs = [
-    ("haus", "maus"),
-    ("tier", "stier"),
-    ("abfliegen", "abfedern")
-]
-
-# Calculate and display the Hamming distance for each pair
-print("Hamming Edit Distance Results:")
-print("-" * 40)
-for pair in word_pairs:
-    word1, word2 = pair
+def analyze_word_pair(word1, word2):
+    """Analyze and display the Hamming distance between two words."""
     distance = hamming_distance(word1, word2)
     print(f"• {word1} - {word2}: {distance}")
     
@@ -67,3 +57,63 @@ for pair in word_pairs:
             print(f"  Plus {len(word2) - len(word1)} extra character(s) in second word")
     
     print()
+
+def main():
+    print("Hamming Edit Distance Calculator")
+    print("-" * 40)
+    
+    while True:
+        print("Options:")
+        print("1. Compare two words")
+        print("2. Enter multiple word pairs")
+        print("3. Use example word pairs")
+        print("4. Exit")
+        
+        choice = input("Choose an option (1-4): ")
+        
+        if choice == '1':
+            word1 = input("Enter first word: ")
+            word2 = input("Enter second word: ")
+            print("\nHamming Edit Distance Results:")
+            print("-" * 40)
+            analyze_word_pair(word1, word2)
+            
+        elif choice == '2':
+            word_pairs = []
+            num_pairs = int(input("How many word pairs do you want to compare? "))
+            
+            for i in range(num_pairs):
+                print(f"\nPair {i+1}:")
+                word1 = input("Enter first word: ")
+                word2 = input("Enter second word: ")
+                word_pairs.append((word1, word2))
+            
+            print("\nHamming Edit Distance Results:")
+            print("-" * 40)
+            for pair in word_pairs:
+                word1, word2 = pair
+                analyze_word_pair(word1, word2)
+                
+        elif choice == '3':
+            # Example word pairs
+            word_pairs = [
+                ("haus", "maus"),
+                ("tier", "stier"),
+                ("abfliegen", "abfedern")
+            ]
+            
+            print("\nHamming Edit Distance Results:")
+            print("-" * 40)
+            for pair in word_pairs:
+                word1, word2 = pair
+                analyze_word_pair(word1, word2)
+                
+        elif choice == '4':
+            print("Exiting program. Goodbye!")
+            break
+            
+        else:
+            print("Invalid choice. Please try again.\n")
+
+if __name__ == "__main__":
+    main()

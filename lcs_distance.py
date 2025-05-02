@@ -59,41 +59,93 @@ def find_all_subsequences(s):
     
     return sorted(subsequences, key=len)
 
-# Word pairs to analyze
-word_pairs = [
-    ("trier", "stier"),
-    ("halt", "fault"),
-    ("ab", "ba")
-]
-
-# Calculate and display the LCS distance for each pair
-print("Längste-Gemeinsame-Teilsequenz-Distanz:")
-print("-" * 50)
-
-for pair in word_pairs:
-    word1, word2 = pair
+def analyze_word_pair(word1, word2, show_subsequences=True):
+    """Analyze and display the LCS distance between two words."""
     lcs_length, lcs, lcs_distance = longest_common_subsequence(word1, word2)
-    
-    # Find all subsequences (limited to reasonable size strings)
-    if len(word1) <= 8 and len(word2) <= 8:
-        subseq1 = find_all_subsequences(word1)
-        subseq2 = find_all_subsequences(word2)
-    else:
-        subseq1 = ["Too many to display"]
-        subseq2 = ["Too many to display"]
     
     # Display results
     print(f"• {word1} - {word2}:")
-    print(f"  LCS: '{lcs}' (Länge: {lcs_length})")
-    print(f"  LCS-Distanz: {lcs_distance}")
+    print(f"  LCS: '{lcs}' (Length: {lcs_length})")
+    print(f"  LCS Distance: {lcs_distance}")
     
-    print(f"  Alle Teilsequenzen von '{word1}':")
-    # Print subsequences in groups of 8 per line
-    for i in range(0, len(subseq1), 8):
-        print(f"    {', '.join(repr(s) for s in subseq1[i:i+8])}")
-    
-    print(f"  Alle Teilsequenzen von '{word2}':")
-    for i in range(0, len(subseq2), 8):
-        print(f"    {', '.join(repr(s) for s in subseq2[i:i+8])}")
+    if show_subsequences:
+        # Find all subsequences (limited to reasonable size strings)
+        if len(word1) <= 64 and len(word2) <= 64:
+            subseq1 = find_all_subsequences(word1)
+            subseq2 = find_all_subsequences(word2)
+            
+            print(f"  All subsequences of '{word1}':")
+            # Print subsequences in groups of 8 per line
+            for i in range(0, len(subseq1), 8):
+                print(f"    {', '.join(repr(s) for s in subseq1[i:i+8])}")
+            
+            print(f"  All subsequences of '{word2}':")
+            for i in range(0, len(subseq2), 8):
+                print(f"    {', '.join(repr(s) for s in subseq2[i:i+8])}")
+        else:
+            print(f"  Subsequences not shown (words longer than 64 characters)")
     
     print()
+
+def main():
+    print("Longest Common Subsequence (LCS) Distance Calculator")
+    print("=" * 50)
+    
+    while True:
+        print("\nOptions:")
+        print("1. Compare two words")
+        print("2. Enter multiple word pairs")
+        print("3. Use example word pairs")
+        print("4. Exit")
+        
+        choice = input("Choose an option (1-4): ")
+        
+        if choice == '1':
+            word1 = input("Enter first word: ").strip()
+            word2 = input("Enter second word: ").strip()
+            show_subsequences = input("Show all subsequences? (y/n): ").lower().startswith('y')
+            print("\nLCS Distance Results:")
+            print("-" * 50)
+            analyze_word_pair(word1, word2, show_subsequences)
+            
+        elif choice == '2':
+            word_pairs = []
+            num_pairs = int(input("How many word pairs do you want to compare? "))
+            show_subsequences = input("Show all subsequences? (y/n): ").lower().startswith('y')
+            
+            for i in range(num_pairs):
+                print(f"\nPair {i+1}:")
+                word1 = input("Enter first word: ").strip()
+                word2 = input("Enter second word: ").strip()
+                word_pairs.append((word1, word2))
+            
+            print("\nLCS Distance Results:")
+            print("-" * 50)
+            for pair in word_pairs:
+                word1, word2 = pair
+                analyze_word_pair(word1, word2, show_subsequences)
+                
+        elif choice == '3':
+            # Example word pairs
+            word_pairs = [
+                ("trier", "stier"),
+                ("halt", "fault"),
+                ("ab", "ba")
+            ]
+            
+            show_subsequences = input("Show all subsequences? (y/n): ").lower().startswith('y')
+            print("\nLCS Distance Results:")
+            print("-" * 50)
+            for pair in word_pairs:
+                word1, word2 = pair
+                analyze_word_pair(word1, word2, show_subsequences)
+                
+        elif choice == '4':
+            print("Exiting program. Goodbye!")
+            break
+            
+        else:
+            print("Invalid choice. Please try again.\n")
+
+if __name__ == "__main__":
+    main()
